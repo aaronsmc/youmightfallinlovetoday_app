@@ -4,7 +4,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    serverActions: true,
+    serverActions: {
+      allowedOrigins: ['*']
+    },
     serverComponentsExternalPackages: ["mongoose"],
   },
   eslint: {

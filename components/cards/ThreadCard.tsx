@@ -1,6 +1,7 @@
-import { Content } from "next/font/google";
+import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteThread from "../forms/DeleteThread";
 
 interface Props {
     id: string;
@@ -64,14 +65,24 @@ const ThreadCard = ({
               </div>
     
               <div className='flex w-full flex-col'>
-                <Link href={`/profile/${author.id}`} className='w-fit'>
-                  <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                    {author.name}
-                  </h4>
-                </Link>
+                <div className='flex items-center justify-between'>
+                  <Link href={`/profile/${author.id}`} className='w-fit'>
+                    <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                      {author.name}
+                    </h4>
+                  </Link>
+    
+                  <DeleteThread
+                    threadId={JSON.stringify(id)}
+                    currentUserId={currentUserId}
+                    authorId={author.id}
+                    parentId={parentId}
+                    isComment={isComment}
+                  />
+                </div>
     
                 <p className='mt-2 text-small-regular text-light-2'>{content}</p>
-    
+
                 <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
                   <div className='flex gap-3.5'>
                     <Image
@@ -105,6 +116,7 @@ const ThreadCard = ({
                       className='cursor-pointer object-contain'
                     />
                   </div>
+
     
                   {isComment && comments.length > 0 && (
                     <Link href={`/thread/${id}`}>
@@ -116,8 +128,27 @@ const ThreadCard = ({
                 </div>
               </div>
             </div>
-            </div>
 
+            {/* {console.log("COMMTMUTNTUTITY", community)} */}
+            
+            {!isComment && community && (
+              <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
+                <p className="text-subtle-medium text-gray-1">
+                  {formatDateString(createdAt)} - {community.name} Community
+                </p>
+              <Image
+                src={community.image}
+                alt={community.name}
+                width={14}
+                height={14}
+                className="ml-1 rounded-full object-cover"
+              />
+              </Link>
+            )}
+            </div>
+            <p className="text-subtle-medium text-gray-1 mt-4">
+                  {formatDateString(createdAt)}
+                </p>
             </article>
     )}
 

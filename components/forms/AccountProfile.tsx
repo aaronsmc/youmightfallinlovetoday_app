@@ -43,6 +43,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   const { startUpload } = useUploadThing("media");
 
   const [files, setFiles] = useState<File[]>([]);
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof UserValidation>>({
     resolver: zodResolver(UserValidation),
@@ -55,27 +56,29 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   });
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    setError("");
+    
     const blob = values.profile_photo;
 
     const hasImageChanged = isBase64Image(blob);
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
       console.log("Upload response:", imgRes);
-
-      // if (imgRes && imgRes[0].fileUrl) {
-      //   values.profile_photo = imgRes[0].fileUrl;
-      // }
     }
 
-    await updateUser({
+    const result = await updateUser({
         userId: user.id,
         username: values.username,
         name: values.name,
         bio: values.bio,
         image: values.profile_photo,
         path: pathname
-  });
+    });
 
+    if (!result.success) {
+        setError(result.error || "Something went wrong");
+        return;
+    }
    
     if (pathname === "/profile/edit") {
       router.back();
@@ -187,6 +190,9 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                 />
               </FormControl>
               <FormMessage />
+              {error && (
+                <p className="text-red-500 text-sm">{error}</p>
+              )}
             </FormItem>
           )}
         />

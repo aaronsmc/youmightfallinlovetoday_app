@@ -22,27 +22,9 @@ export async function updateUser({
   bio,
   image,
   path,
-}: Params): Promise<void> {
-  connectToDB();
-
+}: Params): Promise<{ success: boolean; error?: string }> {
   try {
-    // Debugging: Log all incoming parameters
-    console.log("updateUser called with:", {
-      userId,
-      username,
-      name,
-      bio,
-      image,
-      path,
-    });
-
-    // Validate `username` before calling `.toLowerCase()`
-    if (!username) {
-      console.error("Missing `username`");
-      throw new Error("`username` is required but was not provided");
-    }
-
-    console.log("Converting username to lowercase:", username);
+    connectToDB();
 
     await User.findOneAndUpdate(
       { id: userId },
@@ -56,15 +38,21 @@ export async function updateUser({
       { upsert: true }
     );
 
-    console.log("User updated successfully:", { userId, username });
-
-    if (path === "/profile/edit") {
-      console.log("Revalidating path:", path);
-      revalidatePath(path);
-    }
+    revalidatePath(path);
+    
+    return { success: true };
   } catch (error: any) {
-    console.error("Error in updateUser:", error.message);
-    throw new Error(`Failed to create/update user: ${error.message}`);
+    if (error.code === 11000) {
+      return {
+        success: false,
+        error: "Username is already taken. Please choose another one."
+      };
+    }
+    
+    return {
+      success: false,
+      error: "Something went wrong. Please try again."
+    };
   }
 }
 

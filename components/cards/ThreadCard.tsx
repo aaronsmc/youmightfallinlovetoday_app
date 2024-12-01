@@ -12,6 +12,7 @@ interface Props {
       name: string;
       image: string;
       id: string;
+      username: string;
     };
     community: {
       id: string;
@@ -46,7 +47,7 @@ const ThreadCard = ({
     return (
         <article
           className={`flex w-full flex-col rounded-xl ${
-            isComment ? "px-0 xs:px-7" : "bg-dark-2 p-7"
+            isComment ? "px-0 xs:px-5 py-2 pb-1" : "bg-dark-2 p-7"
           }`}
         >
           <div className='flex items-start justify-between'>
@@ -66,24 +67,44 @@ const ThreadCard = ({
     
               <div className='flex w-full flex-col'>
                 <div className='flex items-center justify-between'>
-                  <Link href={`/profile/${author.id}`} className='w-fit'>
-                    <h4 className='cursor-pointer text-base-semibold text-light-1'>
-                      {author.name}
-                    </h4>
-                  </Link>
-    
-                  <DeleteThread
-                    threadId={JSON.stringify(id)}
-                    currentUserId={currentUserId}
-                    authorId={author.id}
-                    parentId={parentId}
-                    isComment={isComment}
-                  />
+                  <div className='flex items-center'>
+                    <Link href={`/profile/${author.id}`} className='w-fit'>
+                      <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                        {author.name}
+                      </h4>
+                    </Link>
+                    <span className='text-[#d91a1a] ml-3'>
+                      @{author.username}
+                    </span>
+                  </div>
+
+                  {isComment ? (
+                    <div className='flex items-center gap-2'>
+                      <p className="text-subtle-medium text-gray-1">
+                        {formatDateString(createdAt)}
+                      </p>
+                      <DeleteThread
+                        threadId={JSON.stringify(id)}
+                        currentUserId={currentUserId}
+                        authorId={author.id}
+                        parentId={parentId}
+                        isComment={isComment}
+                      />
+                    </div>
+                  ) : (
+                    <DeleteThread
+                      threadId={JSON.stringify(id)}
+                      currentUserId={currentUserId}
+                      authorId={author.id}
+                      parentId={parentId}
+                      isComment={isComment}
+                    />
+                  )}
                 </div>
     
                 <p className='mt-2 text-small-regular text-light-2'>{content}</p>
 
-                <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
+                <div className={`${isComment && "mb-1"} mt-5 flex flex-col gap-3`}>
                   <div className='flex gap-3.5'>
                     <Image
                       src='/assets/heart-gray.svg'
@@ -118,7 +139,7 @@ const ThreadCard = ({
                   </div>
 
     
-                  {isComment && comments.length > 0 && (
+                  {comments.length > 0 && (
                     <Link href={`/thread/${id}`}>
                       <p className='mt-1 text-subtle-medium text-gray-1'>
                         {comments.length} repl{comments.length > 1 ? "ies" : "y"}
@@ -146,9 +167,11 @@ const ThreadCard = ({
               </Link>
             )}
             </div>
-            <p className="text-subtle-medium text-gray-1 mt-4">
-                  {formatDateString(createdAt)}
-                </p>
+            {!isComment && (
+              <p className="text-subtle-medium text-gray-1 mt-4">
+                {formatDateString(createdAt)}
+              </p>
+            )}
             </article>
     )}
 

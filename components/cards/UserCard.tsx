@@ -33,7 +33,7 @@ const UserCard = ({
 
                 <div className="flex-1 text-ellipsis">
                     <h4 className="text-base-semibold text-light-1">{name}</h4>
-                    <p className="text-small-medium text-gray-1">@{username}</p>
+                    <p className="text-small-medium text-[#d91a1a]">@{username}</p>
                 </div>
             </div>
             <Button className="user-card_btn" onClick={() => Router.push(`/profile/${id}`)}>

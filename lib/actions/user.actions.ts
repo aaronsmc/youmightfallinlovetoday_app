@@ -78,8 +78,9 @@ export async function fetchUser(userId: string) {
         populate: {
           path: "author",
           model: User,
-          select: "name image id", // Only select the fields we need
+          select: "name image id username", // Only select the fields we need
         },
+        options: { sort: { createdAt: -1 } }  // Add this line to sort by newest first
       });
 
     if (!user) {

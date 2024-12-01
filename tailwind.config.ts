@@ -171,9 +171,9 @@ module.exports = {
 		  },
 		],
 	  },
-	  extend: {
+	  extend: { 
 		colors: {
-		  "primary-500": "#877EFF",
+		  "primary-500": "#d91a1a",
 		  "secondary-500": "#FFB620",
 		  blue: "#0095F6",
 		  "logout-btn": "#FF5A5A",
@@ -188,6 +188,7 @@ module.exports = {
 		  "light-4": "#5C5C7B",
 		  "gray-1": "#697C89",
 		  glassmorphism: "rgba(16, 16, 18, 0.60)",
+		  "tab-red": "#d91a1a",
 		},
 		boxShadow: {
 		  "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",

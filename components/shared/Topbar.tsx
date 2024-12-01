@@ -8,7 +8,9 @@ function Topbar() {
     <nav className='topbar'>
       <Link href='/' className='flex items-center gap-4'>
         <Image src='/favicon.ico' alt='logo' width={28} height={28} />
-        <p className='text-heading3-bold text-light-1 max-xs:hidden'>You Might Fall In Love Today</p>
+        <p className='text-heading3-bold text-white max-xs:hidden'>
+          You Might Fall In Love <span className='text-[#d91a1a]'>Today</span>
+        </p>
       </Link>
 
       <div className='flex items-center gap-1'>

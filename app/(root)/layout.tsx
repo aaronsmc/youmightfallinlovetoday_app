@@ -15,8 +15,8 @@ import RightSideBar from "@/components/shared/RightSideBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Threads",
-  description: "A Next.js 13 Meta Threads application",
+  title: "You Might Fall In Love Today",
+  description: "A platform to share and express moments of love in our daily lives",
 };
 
 export default async function RootLayout({

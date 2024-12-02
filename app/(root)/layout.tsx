@@ -25,35 +25,35 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const user = await currentUser();
-  if (!user) return null;
+  console.log("Current user:", user?.id);
 
-  const userInfo = await fetchUser(user.id);
-  
-  // If user exists but hasn't onboarded, redirect them
-  if (!userInfo?.onboarded) {
-    redirect("/onboarding");
+  if (user) {
+    const userInfo = await fetchUser(user.id);
+    console.log("Fetched user info:", userInfo);
+    if (!userInfo?.onboarded) {
+      console.log("Redirecting to onboarding because userInfo is:", userInfo);
+      redirect("/onboarding");
+    }
   }
 
   return (
-    <ClerkProvider
-      appearance={{
-        // baseTheme: dark,
-      }}
-    >
+    <ClerkProvider>
       <html lang='en'>
         <body className={inter.className}>
-          <Topbar />
-
-          <main className='flex flex-row'>
-            <LeftSideBar />
-            <section className='main-container'>
-              <div className='w-full max-w-4xl'>{children}</div>
-            </section>
-            {/* @ts-ignore */}
-            <RightSideBar />
-          </main>
-
-          <BottomBar />
+          {user && (
+            <>
+              <Topbar />
+              <main className='flex flex-row'>
+                <LeftSideBar />
+                <section className='main-container'>
+                  <div className='w-full max-w-4xl'>{children}</div>
+                </section>
+                <RightSideBar />
+              </main>
+              <BottomBar />
+            </>
+          )}
+          {!user && children}
         </body>
       </html>
     </ClerkProvider>

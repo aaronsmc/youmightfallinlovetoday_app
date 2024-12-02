@@ -37,7 +37,9 @@ export default async function RootLayout({
   }
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      afterSignOutUrl="/welcome"
+    >
       <html lang='en'>
         <body className={inter.className}>
           {user && (

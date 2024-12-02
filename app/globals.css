@@ -92,15 +92,26 @@
 
   /* Welcome Page */
   .welcome-container {
-    @apply flex min-h-screen flex-col items-center justify-center bg-dark-1 text-center;
+    @apply flex min-h-screen flex-col items-center justify-center bg-white text-center px-4 relative;
   }
 
   .welcome-image {
-    @apply w-auto h-auto max-w-full object-contain;
+    @apply w-auto h-auto max-w-full object-contain mb-8 relative;
+    transform: translateX(80px);
+  }
+
+  .welcome-title {
+    @apply text-heading2-bold text-black;
+  }
+
+  .welcome-text {
+    @apply text-body-normal text-light-2 mb-8;
   }
 
   .welcome-button {
-    @apply mt-6 px-8 py-3 bg-primary-500 text-light-1 rounded-lg hover:bg-primary-500/80 transition-colors;
+    @apply px-8 py-3 bg-primary-500 text-light-1 rounded-lg 
+           hover:bg-primary-500/80 transition-colors
+           text-base-semibold;
   }
 }
 
